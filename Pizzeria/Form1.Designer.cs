@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria
 {
-    partial class Form1
+    partial class Logowanie
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,12 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            hasloTextBox = new TextBox();
+            label1 = new Label();
+            SuspendLayout();
+            // 
+            // hasloTextBox
+            // 
+            hasloTextBox.Location = new Point(235, 230);
+            hasloTextBox.Name = "hasloTextBox";
+            hasloTextBox.Size = new Size(284, 27);
+            hasloTextBox.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(232, 165);
+            label1.Name = "label1";
+            label1.Size = new Size(82, 20);
+            label1.TabIndex = 1;
+            label1.Text = "Logowanie";
+            // 
+            // Logowanie
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(label1);
+            Controls.Add(hasloTextBox);
+            Name = "Logowanie";
+            Text = "Logowanie";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private TextBox hasloTextBox;
+        private Label label1;
     }
 }
