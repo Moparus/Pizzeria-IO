@@ -9,11 +9,11 @@ namespace Pizzeria
     internal class Klient
     {
         public string Imie { get; set; }
-        public decimal Nazwisko { get; set; }
+        public string Nazwisko { get; set; }
         public string Miasto { get; set; }
-        public decimal Ulica { get; set; }
+        public string Ulica { get; set; }
 
-        public Klient(string imie, decimal nazwisko, string miasto, decimal ulica)
+        public Klient(string imie, string nazwisko, string miasto, string ulica)
         {
             Imie = imie;
             Nazwisko = nazwisko;

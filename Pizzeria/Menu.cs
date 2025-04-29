@@ -16,6 +16,13 @@ namespace Pizzeria
         public Produkt Produkt { get; set; }
         public string Rozmiar { get; set; }
         public decimal Cena { get; set; }
+    
+        public PozycjaMenu(Produkt produkt, string rozmiar, decimal cena)
+        {
+            Produkt = produkt;
+            Rozmiar = rozmiar;
+            Cena = cena;
+        }
     }
 
     internal class Produkt
