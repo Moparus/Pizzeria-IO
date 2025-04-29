@@ -9,8 +9,8 @@ namespace Pizzeria
     // Klasa reprezentująca pojedynczy przedmiot zamówienia – opakowanie pozycji menu wraz z ilością
     internal class PrzedmiotZamowienia
     {
-        public PozycjaMenu Pozycja { get; set; }
-        public int Ilosc { get; set; }
+        public PozycjaMenu pozycja { get; set; }
+        public int ilosc { get; set; }
 
         public PrzedmiotZamowienia(PozycjaMenu pozycja, int ilosc)
         {
@@ -22,8 +22,8 @@ namespace Pizzeria
             {
                 throw new ArgumentException("Ilość musi być większa od zera.", nameof(ilosc));
             }
-            Pozycja = pozycja;
-            Ilosc = ilosc;
+            this.pozycja = pozycja;
+            this.ilosc = ilosc;
         }
     }
 
@@ -49,37 +49,37 @@ namespace Pizzeria
         };
 
         // Lista przedmiotów zamówienia
-        public List<PrzedmiotZamowienia> Przedmioty { get; set; } = new List<PrzedmiotZamowienia>();
+        public List<PrzedmiotZamowienia> przedmioty { get; set; } = new List<PrzedmiotZamowienia>();
 
         // Nowe właściwości zamówienia
-        public Klient Klient { get; set; }
-        public string TypZamowienia { get; set; }
-        public DateTime DataZamowienia { get; set; }
-        public DateTime DataDostawy { get; set; }
-        public decimal KwotaCalkowita { get; set; }
-        public string Status { get; set; }
+        public Klient klient { get; set; }
+        public string typZamowienia { get; set; }
+        public DateTime dataZamowienia { get; set; }
+        public DateTime dataDostawy { get; set; }
+        public decimal kwotaCalkowita { get; set; }
+        public string status { get; set; }
 
         // Konstruktor parametryczny z walidacją typów i statusów
         public Zamowienie(Klient klient, string typZamowienia, DateTime dataZamowienia, DateTime dataDostawy, string status)
         {
-            Klient = klient ?? throw new ArgumentNullException(nameof(klient), "Klient nie może być null.");
+            this.klient = klient ?? throw new ArgumentNullException(nameof(klient), "Klient nie może być null.");
 
             if (!typyZamowienia.Contains(typZamowienia))
             {
                 throw new ArgumentException("Nieprawidłowy typ zamówienia.", nameof(typZamowienia));
             }
-            TypZamowienia = typZamowienia;
+            this.typZamowienia = typZamowienia;
 
-            DataZamowienia = dataZamowienia;
-            DataDostawy = dataDostawy;
+            this.dataZamowienia = dataZamowienia;
+            this.dataDostawy = dataDostawy;
 
             if (!statusyZamowienia.Contains(status))
             {
                 throw new ArgumentException("Nieprawidłowy status zamówienia.", nameof(status));
             }
-            Status = status;
+            this.status = status;
 
-            KwotaCalkowita = 0; // Na początku suma wynosi 0 i będzie aktualizowana przy dodawaniu przedmiotów
+            this.kwotaCalkowita = 0; // Na początku suma wynosi 0 i będzie aktualizowana przy dodawaniu przedmiotów
         }
 
         // Konstruktor domyślny – przydatny przy inicjalizacji i późniejszym uzupełnianiu danych
@@ -89,25 +89,25 @@ namespace Pizzeria
         public void DodajPrzedmiot(PozycjaMenu pozycja, int ilosc)
         {
             var przedmiot = new PrzedmiotZamowienia(pozycja, ilosc);
-            Przedmioty.Add(przedmiot);
-            KwotaCalkowita += pozycja.Cena * ilosc;
+            this.przedmioty.Add(przedmiot);
+            this.kwotaCalkowita += pozycja.cena * ilosc;
         }
 
         // Wypisanie szczegółów zamówienia
         public void WypiszZamowienie()
         {
             Console.WriteLine("Zamówienie:");
-            Console.WriteLine($"Klient: {Klient.Imie} {Klient.Nazwisko}");
-            Console.WriteLine($"Typ zamówienia: {TypZamowienia}");
-            Console.WriteLine($"Data zamówienia: {DataZamowienia}");
-            Console.WriteLine($"Data dostawy: {DataDostawy}");
-            Console.WriteLine($"Status: {Status}");
+            Console.WriteLine($"Klient: {klient.imie} {klient.nazwisko}");
+            Console.WriteLine($"Typ zamówienia: {typZamowienia}");
+            Console.WriteLine($"Data zamówienia: {dataZamowienia}");
+            Console.WriteLine($"Data dostawy: {dataDostawy}");
+            Console.WriteLine($"Status: {status}");
             Console.WriteLine("Przedmioty zamówienia:");
-            foreach (var przedmiot in Przedmioty)
+            foreach (var przedmiot in przedmioty)
             {
-                Console.WriteLine($"{przedmiot.Pozycja.Produkt.Nazwa} ({przedmiot.Pozycja.Rozmiar}) - {przedmiot.Pozycja.Cena:C} x {przedmiot.Ilosc}");
+                Console.WriteLine($"{przedmiot.pozycja.produkt.nazwa} ({przedmiot.pozycja.rozmiar}) - {przedmiot.pozycja.cena:C} x {przedmiot.ilosc}");
             }
-            Console.WriteLine($"Kwota całkowita: {KwotaCalkowita:C}");
+            Console.WriteLine($"Kwota całkowita: {kwotaCalkowita:C}");
         }
     }
 }

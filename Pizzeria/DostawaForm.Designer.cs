@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria
 {
-    partial class Kasa
+    partial class DostawaForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,66 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            listView1 = new ListView();
             button1 = new Button();
-            button2 = new Button();
-            button4 = new Button();
+            listView1 = new ListView();
+            listBox1 = new ListBox();
             SuspendLayout();
+            // 
+            // button1
+            // 
+            button1.Location = new Point(12, 645);
+            button1.Name = "button1";
+            button1.Size = new Size(625, 79);
+            button1.TabIndex = 4;
+            button1.Text = "Zatwierdź";
+            button1.UseVisualStyleBackColor = true;
             // 
             // listView1
             // 
             listView1.Location = new Point(12, 12);
             listView1.Name = "listView1";
             listView1.Size = new Size(625, 569);
-            listView1.TabIndex = 1;
+            listView1.TabIndex = 3;
             listView1.UseCompatibleStateImageBehavior = false;
             // 
-            // button1
+            // listBox1
             // 
-            button1.Location = new Point(12, 587);
-            button1.Name = "button1";
-            button1.Size = new Size(625, 79);
-            button1.TabIndex = 5;
-            button1.Text = "Zakończ zamówienie";
-            button1.UseVisualStyleBackColor = true;
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(12, 587);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(625, 49);
+            listBox1.TabIndex = 5;
             // 
-            // button2
-            // 
-            button2.Location = new Point(643, 12);
-            button2.Name = "button2";
-            button2.Size = new Size(229, 135);
-            button2.TabIndex = 6;
-            button2.Text = "Dodaj zamówienie";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(643, 153);
-            button4.Name = "button4";
-            button4.Size = new Size(229, 135);
-            button4.TabIndex = 8;
-            button4.Text = "Edytuj zamówienie";
-            button4.UseVisualStyleBackColor = true;
-            // 
-            // Kasa
+            // Dostawa
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(884, 678);
-            Controls.Add(button4);
-            Controls.Add(button2);
+            ClientSize = new Size(650, 736);
+            Controls.Add(listBox1);
             Controls.Add(button1);
             Controls.Add(listView1);
-            Name = "Kasa";
-            Text = "Kasa";
+            Name = "Dostawa";
+            Text = "Dostawa";
             ResumeLayout(false);
         }
 
         #endregion
-
-        private ListView listView1;
         private Button button1;
-        private Button button2;
-        private Button button4;
+        private ListView listView1;
+        private ListBox listBox1;
     }
 }

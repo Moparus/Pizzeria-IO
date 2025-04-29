@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace Pizzeria
 {
-    internal class Menu
+    public class Menu
     {
         public List<PozycjaMenu> Pozycje { get; set; } = new List<PozycjaMenu>();
     }
 
-    internal class PozycjaMenu
+    public class PozycjaMenu
     {
-        public Produkt Produkt { get; set; }
-        public string Rozmiar { get; set; }
-        public decimal Cena { get; set; }
+        public Produkt produkt { get; set; }
+        public string rozmiar { get; set; }
+        public decimal cena { get; set; }
     
         public PozycjaMenu(Produkt produkt, string rozmiar, decimal cena)
         {
-            Produkt = produkt;
-            Rozmiar = rozmiar;
-            Cena = cena;
+            this.produkt = produkt;
+            this.rozmiar = rozmiar;
+            this.cena = cena;
         }
     }
 
-    internal class Produkt
+    public class Produkt
     {
         private static List<string> kategorie { get; set; } = new List<string>
         {
@@ -37,15 +37,15 @@ namespace Pizzeria
             "Przystawka"
         };
 
-        public string Nazwa;
-        public string Opis;
-        public string Kategoria_id;
+        public string nazwa;
+        public string opis;
+        public string kategoria;
 
-        public Produkt(string nazwa, string opis, string kategoria_id)
+        public Produkt(string nazwa, string opis, int kategoria_id)
         {
-            this.Nazwa = nazwa;
-            this.Opis = opis;
-            this.Kategoria_id = kategoria_id;
+            this.nazwa = nazwa;
+            this.opis = opis;
+            this.kategoria = kategorie[kategoria_id];
         }
     }
     

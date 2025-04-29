@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria
 {
-    partial class Dostawca
+    partial class KuchniaForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,41 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
             listView1 = new ListView();
+            button1 = new Button();
+            button2 = new Button();
             SuspendLayout();
-            // 
-            // button1
-            // 
-            button1.Location = new Point(11, 587);
-            button1.Name = "button1";
-            button1.Size = new Size(625, 79);
-            button1.TabIndex = 7;
-            button1.Text = "Dostarczone";
-            button1.UseVisualStyleBackColor = true;
             // 
             // listView1
             // 
             listView1.Location = new Point(12, 12);
             listView1.Name = "listView1";
             listView1.Size = new Size(625, 569);
-            listView1.TabIndex = 6;
+            listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             // 
-            // Dostawca
+            // button1
+            // 
+            button1.Location = new Point(12, 587);
+            button1.Name = "button1";
+            button1.Size = new Size(310, 79);
+            button1.TabIndex = 1;
+            button1.Text = "W przygotowaniu";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(328, 587);
+            button2.Name = "button2";
+            button2.Size = new Size(310, 79);
+            button2.TabIndex = 2;
+            button2.Text = "Gotowe";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // Kuchnia
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(648, 678);
+            ClientSize = new Size(649, 678);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(listView1);
-            Name = "Dostawca";
-            Text = "Dostawca";
+            Name = "Kuchnia";
+            Text = "Kuchnia";
             ResumeLayout(false);
         }
 
         #endregion
-        private Button button1;
+
         private ListView listView1;
+        private Button button1;
+        private Button button2;
     }
 }

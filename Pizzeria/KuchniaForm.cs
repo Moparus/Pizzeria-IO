@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Pizzeria
 {
-    public partial class Kuchnia : Form
+    public partial class KuchniaForm : Form
     {
-        public Kuchnia()
+        public KuchniaForm()
         {
             InitializeComponent();
         }

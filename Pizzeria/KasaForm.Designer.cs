@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria
 {
-    partial class Kuchnia
+    partial class KasaForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,6 +31,7 @@
             listView1 = new ListView();
             button1 = new Button();
             button2 = new Button();
+            button4 = new Button();
             SuspendLayout();
             // 
             // listView1
@@ -38,37 +39,48 @@
             listView1.Location = new Point(12, 12);
             listView1.Name = "listView1";
             listView1.Size = new Size(625, 569);
-            listView1.TabIndex = 0;
+            listView1.TabIndex = 1;
             listView1.UseCompatibleStateImageBehavior = false;
             // 
             // button1
             // 
             button1.Location = new Point(12, 587);
             button1.Name = "button1";
-            button1.Size = new Size(310, 79);
-            button1.TabIndex = 1;
-            button1.Text = "W przygotowaniu";
+            button1.Size = new Size(625, 79);
+            button1.TabIndex = 5;
+            button1.Text = "Zakończ zamówienie";
             button1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            button2.Location = new Point(328, 587);
+            button2.Location = new Point(643, 12);
             button2.Name = "button2";
-            button2.Size = new Size(310, 79);
-            button2.TabIndex = 2;
-            button2.Text = "Gotowe";
+            button2.Size = new Size(229, 135);
+            button2.TabIndex = 6;
+            button2.Text = "Dodaj zamówienie";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
-            // Kuchnia
+            // button4
+            // 
+            button4.Location = new Point(643, 153);
+            button4.Name = "button4";
+            button4.Size = new Size(229, 135);
+            button4.TabIndex = 8;
+            button4.Text = "Edytuj zamówienie";
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // KasaForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(649, 678);
+            ClientSize = new Size(884, 678);
+            Controls.Add(button4);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(listView1);
-            Name = "Kuchnia";
-            Text = "Kuchnia";
+            Name = "KasaForm";
+            Text = "Kasa";
             ResumeLayout(false);
         }
 
@@ -77,5 +89,6 @@
         private ListView listView1;
         private Button button1;
         private Button button2;
+        private Button button4;
     }
 }

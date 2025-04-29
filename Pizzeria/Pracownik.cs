@@ -8,7 +8,7 @@ namespace Pizzeria
 {
     internal class Pracownik
     {
-        public static List<string> Role { get; } = new List<string>
+        public static List<string> role { get; } = new List<string>
         {
             "Szef",
             "Kelner",
@@ -16,22 +16,22 @@ namespace Pizzeria
             "Dostawca"
         };
 
-        public string Imie { get; set; }
-        public string Nazwisko { get; set; }
-        public string Rola { get; set; }
-        public string Haslo { get; set; }
+        public string imie { get; set; }
+        public string nazwisko { get; set; }
+        public string rola { get; set; }
+        public string haslo { get; set; }
 
         public Pracownik(string imie, string nazwisko, string rola, string haslo)
         {
-            Imie = imie;
-            Nazwisko = nazwisko;
+            this.imie = imie;
+            this.nazwisko = nazwisko;
 
-            if (!Role.Contains(rola))
+            if (!role.Contains(rola))
             {
                 throw new ArgumentException("Nieprawidłowa rola pracownika.");
             }
-            Rola = rola;
-            Haslo = haslo;
+            this.rola = rola;
+            this.haslo = haslo;
         }
     }
 
