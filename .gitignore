@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+Pizzeria/.vs/
+
+# Kompilacje
+Pizzeria/bin/
+Pizzeria/obj/
+
+# Pliki tymczasowe użytkownika
+*.user
+*.suo
+
+# Logi i pliki tymczasowe
+*.log
+*.tmp
+
+# Pliki kompilacji C#
+*.pdb
+*.dll
+*.exe
