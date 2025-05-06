@@ -1,117 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Pizzeria;
 
 namespace Pizzeria
 {
-    // Klasa reprezentująca pojedynczy przedmiot zamówienia – opakowanie pozycji menu wraz z ilością
-    internal class ElementZamowienia
-    {
-        public PozycjaMenu pozycja { get; set; }
-        public int ilosc { get; set; }
-        public double cena { get; set; }
-
-        public ElementZamowienia(PozycjaMenu pozycja, int ilosc)
-        {
-            if (pozycja == null)
-            {
-                throw new ArgumentNullException(nameof(pozycja), "Pozycja menu nie może być null.");
-            }
-            if (ilosc <= 0)
-            {
-                throw new ArgumentException("Ilość musi być większa od zera.", nameof(ilosc));
-            }
-            this.pozycja = pozycja;
-            this.ilosc = ilosc;
-            this.cena = ilosc * pozycja.cena;
-        }
-    }
-
-    // Klasa reprezentująca zamówienie
     internal class Zamowienie
     {
-        // Statyczna lista statusów zamówienia
-        //private static List<string> statusyZamowienia { get; } = new List<string>
-        //{
-        //    "Nowe",
-        //    "W realizacji",
-        //    "Wysłane",
-        //    "Zrealizowane",
-        //    "Anulowane"
-        //};
+        public Guid Id { get; } = Guid.NewGuid();
+        public string TypZamowienia { get; set; }
+        public DateTime DataZamowienia { get; set; }
+        public DateTime DataDostawy { get; set; }
+        public string Status { get; private set; }
 
-        // Statyczna lista typów zamówienia
-        //private static List<string> typyZamowienia { get; } = new List<string>
-        //{
-        //    "Na miejscu",
-        //    "Dostawa",
-        //    "Odbiór osobisty"
-        //};
+        public Klient Klient { get; set; }
+        public Pracownik Pracownik { get; set; }
 
-        // Lista przedmiotów zamówienia
-        public List<ElementZamowienia> przedmioty { get; set; } = new List<ElementZamowienia>();
+        private readonly List<ElementZamowienia> _elementy = new List<ElementZamowienia>();
+        private static readonly List<Zamowienie> WszystkieZamowienia = new List<Zamowienie>();
 
-        // Nowe właściwości zamówienia
-        public Klient klient { get; set; }
-        public string typZamowienia { get; set; }
-        public DateTime dataZamowienia { get; set; }
-        public DateTime dataDostawy { get; set; }
-        public double kwotaCalkowita { get; set; }
-        public string status { get; set; }
-        public Pracownik pracownik { get; set; }
+        public double KwotaCalkowita => _elementy.Sum(e => e.Cena);
 
-        // Konstruktor parametryczny z walidacją typów i statusów
-        public Zamowienie(Klient klient, string typZamowienia, DateTime dataZamowienia, DateTime dataDostawy, string status)
+        private Zamowienie(string typZamowienia, DateTime dataZamowienia, DateTime dataDostawy, Klient klient)
         {
-            this.klient = klient ?? throw new ArgumentNullException(nameof(klient), "Klient nie może być null.");
-
-            //if (!typyZamowienia.Contains(typZamowienia))
-            //{
-            //    throw new ArgumentException("Nieprawidłowy typ zamówienia.", nameof(typZamowienia));
-            //}
-            this.typZamowienia = typZamowienia;
-
-            this.dataZamowienia = dataZamowienia;
-            this.dataDostawy = dataDostawy;
-
-            //if (!statusyZamowienia.Contains(status))
-            //{
-            //    throw new ArgumentException("Nieprawidłowy status zamówienia.", nameof(status));
-            //}
-            this.status = status;
-
-            this.kwotaCalkowita = 0; // Na początku suma wynosi 0 i będzie aktualizowana przy dodawaniu przedmiotów
-            this.pracownik = null;
+            TypZamowienia = typZamowienia;
+            DataZamowienia = dataZamowienia;
+            DataDostawy = dataDostawy;
+            Klient = klient;
+            Status = "Nowe";
         }
 
-        // Konstruktor domyślny – przydatny przy inicjalizacji i późniejszym uzupełnianiu danych
-        public Zamowienie() { }
-
-        // Metoda dodająca przedmiot do zamówienia – przy aktualizacji kwoty całkowitej
-        public void DodajPrzedmiot(PozycjaMenu pozycja, int ilosc)
+        public static Zamowienie DodajZamowienie(string typZamowienia, DateTime dataDostawy, Klient klient)
         {
-            var przedmiot = new ElementZamowienia(pozycja, ilosc);
-            this.przedmioty.Add(przedmiot);
-            this.kwotaCalkowita += przedmiot.cena;
+            var zam = new Zamowienie(typZamowienia, DateTime.Now, dataDostawy, klient);
+            WszystkieZamowienia.Add(zam);
+            return zam;
         }
 
-        // Wypisanie szczegółów zamówienia
-        public void WypiszZamowienie()
+        public static void EdytujZamowienie(Guid id, string typZamowienia, DateTime dataDostawy)
         {
-            Console.WriteLine("Zamówienie:");
-            Console.WriteLine($"Klient: {klient.imie} {klient.nazwisko}");
-            Console.WriteLine($"Typ zamówienia: {typZamowienia}");
-            Console.WriteLine($"Data zamówienia: {dataZamowienia}");
-            Console.WriteLine($"Data dostawy: {dataDostawy}");
-            Console.WriteLine($"Status: {status}");
-            Console.WriteLine("Przedmioty zamówienia:");
-            foreach (var przedmiot in przedmioty)
-            {
-                Console.WriteLine($"{przedmiot.pozycja.produkt.nazwa} ({przedmiot.pozycja.rozmiar}) - {przedmiot.pozycja.cena:C} x {przedmiot.ilosc}");
-            }
-            Console.WriteLine($"Kwota całkowita: {kwotaCalkowita:C}");
+            var zam = WszystkieZamowienia.FirstOrDefault(z => z.Id == id);
+            if (zam == null) return;
+            zam.TypZamowienia = typZamowienia;
+            zam.DataDostawy = dataDostawy;
+        }
+
+        public static void UsunZamowienie(Guid id)
+        {
+            var zam = WszystkieZamowienia.FirstOrDefault(z => z.Id == id);
+            if (zam != null)
+                WszystkieZamowienia.Remove(zam);
+        }
+
+        public static IReadOnlyList<Zamowienie> PobierzWszystkie() => WszystkieZamowienia.AsReadOnly();
+
+        public void DodajElement(PozycjaMenu pozycja, int ilosc)
+        {
+            if (ilosc <= 0) throw new ArgumentException("Ilość musi być większa niż 0");
+            _elementy.Add(new ElementZamowienia(pozycja, ilosc));
+        }
+
+        public void UsunElement(Guid pozycjaId)
+        {
+            var el = _elementy.FirstOrDefault(e => e.Pozycja.Id == pozycjaId);
+            if (el != null)
+                _elementy.Remove(el);
+        }
+
+        public void ZmienStatus(string status) => Status = status;
+
+        public override string ToString()
+        {
+            var items = string.Join("; ", _elementy.Select(e => e.ToString()));
+            return $"Zamówienie {Id}: {TypZamowienia}, klient: {Klient}, status: {Status}, suma: {KwotaCalkowita:C}, elementy: [{items}]";
         }
     }
 }

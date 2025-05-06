@@ -6,48 +6,91 @@ using System.Threading.Tasks;
 
 namespace Pizzeria
 {
-    public class Menu
+    public class Produkt
     {
-        public List<PozycjaMenu> pozycje { get; set; } = new List<PozycjaMenu>();
-        public List<Produkt> produkty { get; set; } = new List<Produkt>();
+        public Guid Id { get; } = Guid.NewGuid();
+        public string Nazwa { get; set; }
+        public string Opis { get; set; }
+        public string Kategoria { get; set; }
+
+        public Produkt(string nazwa, string opis, string kategoria)
+        {
+            Nazwa = nazwa;
+            Opis = opis;
+            Kategoria = kategoria;
+        }
+
+        public override string ToString() => $"[{Nazwa}] {Opis} ({Kategoria})";
     }
 
     public class PozycjaMenu
     {
-        public Produkt produkt { get; set; }
-        public string rozmiar { get; set; }
-        public double cena { get; set; }
-    
+        public Guid Id { get; } = Guid.NewGuid();
+        public Produkt Produkt { get; set; }
+        public string Rozmiar { get; set; }
+        public double Cena { get; set; }
+
         public PozycjaMenu(Produkt produkt, string rozmiar, double cena)
         {
-            this.produkt = produkt;
-            this.rozmiar = rozmiar;
-            this.cena = cena;
+            Produkt = produkt;
+            Rozmiar = rozmiar;
+            Cena = cena;
         }
+
+        public override string ToString() => $"{Produkt.Nazwa} ({Rozmiar}) - {Cena:C}";
     }
 
-    public class Produkt
+    public class Menu
     {
-        //private static List<string> kategorie { get; set; } = new List<string>
-        //{
-        //    "Opakowanie",
-        //    "Dostawa",
-        //    "Pizza",
-        //    "Makaron",
-        //    "Napój",
-        //    "Przystawka"
-        //};
+        private readonly List<Produkt> _produkty = new List<Produkt>();
+        private readonly List<PozycjaMenu> _pozycje = new List<PozycjaMenu>();
 
-        public string nazwa;
-        public string opis;
-        public string kategoria;
-
-        public Produkt(string nazwa, string opis, string kategoria)
+        public void DodajProdukt(string nazwa, string opis, string kategoria)
         {
-            this.nazwa = nazwa;
-            this.opis = opis;
-            this.kategoria = kategoria;
+            var produkt = new Produkt(nazwa, opis, kategoria);
+            _produkty.Add(produkt);
         }
+
+        public void EdytujProdukt(Guid produktId, string nazwa, string opis, string kategoria)
+        {
+            var prod = _produkty.FirstOrDefault(p => p.Id == produktId);
+            if (prod == null) return;
+            prod.Nazwa = nazwa;
+            prod.Opis = opis;
+            prod.Kategoria = kategoria;
+        }
+
+        public void UsunProdukt(Guid produktId)
+        {
+            var prod = _produkty.FirstOrDefault(p => p.Id == produktId);
+            if (prod != null)
+                _produkty.Remove(prod);
+        }
+
+        public void DodajPozycjeMenu(Guid produktId, string rozmiar, double cena)
+        {
+            var prod = _produkty.FirstOrDefault(p => p.Id == produktId);
+            if (prod == null) return;
+            var pozycja = new PozycjaMenu(prod, rozmiar, cena);
+            _pozycje.Add(pozycja);
+        }
+
+        public void EdytujPozycjeMenu(Guid pozycjaId, string rozmiar, double cena)
+        {
+            var p = _pozycje.FirstOrDefault(x => x.Id == pozycjaId);
+            if (p == null) return;
+            p.Rozmiar = rozmiar;
+            p.Cena = cena;
+        }
+
+        public void UsunPozycjeMenu(Guid pozycjaId)
+        {
+            var p = _pozycje.FirstOrDefault(x => x.Id == pozycjaId);
+            if (p != null)
+                _pozycje.Remove(p);
+        }
+
+        public IReadOnlyList<PozycjaMenu> PobierzMenu() => _pozycje.AsReadOnly();
     }
-    
+
 }
