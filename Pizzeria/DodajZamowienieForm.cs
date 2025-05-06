@@ -25,15 +25,15 @@ namespace Pizzeria
         {
             menuListView.Items.Clear();
 
-            foreach (var pozycja in menu)
-            {
-                var item = new ListViewItem(pozycja.produkt.nazwa);
-                item.SubItems.Add(pozycja.produkt.opis);
-                item.SubItems.Add(pozycja.rozmiar);
-                item.SubItems.Add($"{pozycja.cena} PLN");
+            //foreach (var pozycja in menu)
+            //{
+            //    var item = new ListViewItem(pozycja.produkt.nazwa);
+            //    item.SubItems.Add(pozycja.produkt.opis);
+            //    item.SubItems.Add(pozycja.rozmiar);
+            //    item.SubItems.Add($"{pozycja.cena} PLN");
 
-                menuListView.Items.Add(item);
-            }
+            //    menuListView.Items.Add(item);
+            //}
         }
     }
 }
