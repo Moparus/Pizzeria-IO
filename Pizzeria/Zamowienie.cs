@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Pizzeria;
 
-namespace Pizzeria
+namespace Pizzeria.Models
 {
-    internal class Zamowienie
+    public class Zamowienie
     {
         public Guid Id { get; } = Guid.NewGuid();
         public string TypZamowienia { get; set; }

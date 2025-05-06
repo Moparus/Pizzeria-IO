@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pizzeria
+namespace Pizzeria.Models
 {
-    internal class Pracownik
+    public class Pracownik
     {
         //public static List<string> role { get; } = new List<string>
         //{
