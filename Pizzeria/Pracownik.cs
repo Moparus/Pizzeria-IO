@@ -8,13 +8,13 @@ namespace Pizzeria
 {
     internal class Pracownik
     {
-        public static List<string> role { get; } = new List<string>
-        {
-            "Szef",
-            "Kelner",
-            "Kucharz",
-            "Dostawca"
-        };
+        //public static List<string> role { get; } = new List<string>
+        //{
+        //    "Szef",
+        //    "Kelner",
+        //    "Kucharz",
+        //    "Dostawca"
+        //};
 
         public string imie { get; set; }
         public string nazwisko { get; set; }
@@ -25,11 +25,6 @@ namespace Pizzeria
         {
             this.imie = imie;
             this.nazwisko = nazwisko;
-
-            if (!role.Contains(rola))
-            {
-                throw new ArgumentException("Nieprawidłowa rola pracownika.");
-            }
             this.rola = rola;
             this.haslo = haslo;
         }

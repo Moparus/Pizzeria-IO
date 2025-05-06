@@ -8,16 +8,17 @@ namespace Pizzeria
 {
     public class Menu
     {
-        public List<PozycjaMenu> Pozycje { get; set; } = new List<PozycjaMenu>();
+        public List<PozycjaMenu> pozycje { get; set; } = new List<PozycjaMenu>();
+        public List<Produkt> produkty { get; set; } = new List<Produkt>();
     }
 
     public class PozycjaMenu
     {
         public Produkt produkt { get; set; }
         public string rozmiar { get; set; }
-        public decimal cena { get; set; }
+        public double cena { get; set; }
     
-        public PozycjaMenu(Produkt produkt, string rozmiar, decimal cena)
+        public PozycjaMenu(Produkt produkt, string rozmiar, double cena)
         {
             this.produkt = produkt;
             this.rozmiar = rozmiar;
@@ -27,25 +28,25 @@ namespace Pizzeria
 
     public class Produkt
     {
-        private static List<string> kategorie { get; set; } = new List<string>
-        {
-            "Opakowanie",
-            "Dostawa",
-            "Pizza",
-            "Makaron",
-            "Napój",
-            "Przystawka"
-        };
+        //private static List<string> kategorie { get; set; } = new List<string>
+        //{
+        //    "Opakowanie",
+        //    "Dostawa",
+        //    "Pizza",
+        //    "Makaron",
+        //    "Napój",
+        //    "Przystawka"
+        //};
 
         public string nazwa;
         public string opis;
         public string kategoria;
 
-        public Produkt(string nazwa, string opis, int kategoria_id)
+        public Produkt(string nazwa, string opis, string kategoria)
         {
             this.nazwa = nazwa;
             this.opis = opis;
-            this.kategoria = kategorie[kategoria_id];
+            this.kategoria = kategoria;
         }
     }
     
