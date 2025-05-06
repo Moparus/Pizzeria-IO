@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pizzeria
+namespace Pizzeria.Models
 {
-    internal class Pracownik
+    public class Pracownik
     {
-        public static List<string> Role { get; } = new List<string>
-        {
-            "Szef",
-            "Kelner",
-            "Kucharz",
-            "Dostawca"
-        };
+        //public static List<string> role { get; } = new List<string>
+        //{
+        //    "Szef",
+        //    "Kelner",
+        //    "Kucharz",
+        //    "Dostawca"
+        //};
 
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
@@ -25,14 +25,13 @@ namespace Pizzeria
         {
             Imie = imie;
             Nazwisko = nazwisko;
-
-            if (!Role.Contains(rola))
-            {
-                throw new ArgumentException("Nieprawidłowa rola pracownika.");
-            }
             Rola = rola;
             Haslo = haslo;
         }
+
+        public bool Autoryzuj(string haslo) => Haslo == haslo;
+
+        public override string ToString() => $"{Imie} {Nazwisko} ({Rola})";
     }
 
 }
