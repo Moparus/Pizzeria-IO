@@ -16,18 +16,22 @@ namespace Pizzeria
         //    "Dostawca"
         //};
 
-        public string imie { get; set; }
-        public string nazwisko { get; set; }
-        public string rola { get; set; }
-        public string haslo { get; set; }
+        public string Imie { get; set; }
+        public string Nazwisko { get; set; }
+        public string Rola { get; set; }
+        public string Haslo { get; set; }
 
         public Pracownik(string imie, string nazwisko, string rola, string haslo)
         {
-            this.imie = imie;
-            this.nazwisko = nazwisko;
-            this.rola = rola;
-            this.haslo = haslo;
+            Imie = imie;
+            Nazwisko = nazwisko;
+            Rola = rola;
+            Haslo = haslo;
         }
+
+        public bool Autoryzuj(string haslo) => Haslo == haslo;
+
+        public override string ToString() => $"{Imie} {Nazwisko} ({Rola})";
     }
 
 }
