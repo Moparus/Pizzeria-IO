@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="ListaZamowien.h" />
     <ClCompile Include="Pizzeria.cpp" />
+    <ClCompile Include="Zamowienie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities.h" />

@@ -27,6 +27,9 @@
     <ClCompile Include="ListaZamowien.h">
       <Filter>Pliki źródłowe\include</Filter>
     </ClCompile>
+    <ClCompile Include="Zamowienie.cpp">
+      <Filter>Pliki źródłowe\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities.h">
