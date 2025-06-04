@@ -16,6 +16,9 @@
     <Filter Include="Pliki źródłowe\include">
       <UniqueIdentifier>{56dbc8f2-4545-40ac-a861-70aefb24cb15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\src">
+      <UniqueIdentifier>{c9f484fc-31cc-45bb-ad43-e17cc7553e52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pizzeria.cpp">
@@ -24,6 +27,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities.h">
+      <Filter>Pliki źródłowe\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Zamowienie.h">
       <Filter>Pliki źródłowe\include</Filter>
     </ClInclude>
   </ItemGroup>
