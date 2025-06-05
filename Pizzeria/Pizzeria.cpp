@@ -451,5 +451,96 @@ void widokKierowcy(vector<Pracownik*>& pracownicy, ListaZamowien& listaZamowien)
 
 // Widok szefa
 void widokSzefa(vector<Pracownik*>& pracownicy, Menu& menu, ListaZamowien& listaZamowien) {
+    clearScreen();
+    cout << "--- Widok Szefa ---" << endl;
+    cout << "Podaj haslo: ";
+    string haslo;
+    getline(cin, haslo);
 
+    Pracownik* szef = nullptr;
+    for (auto p : pracownicy) {
+        if (p->rola == "szef" && p->autoryzuj(haslo)) {
+            szef = p;
+            break;
+        }
+    }
+    if (!szef) {
+        cout << "Blad logowania. Nacisnij Enter, aby wrocic do menu glownego." << endl;
+        getline(cin, haslo);
+        return;
+    }
+
+    while (true) {
+        clearScreen();
+        cout << "Zalogowano jako szef: " << szef->imie << " " << szef->nazwisko << endl;
+        cout << "\n--- Menu Szefa ---" << endl;
+        cout << "1. Dodaj pozycje do menu" << endl;
+        cout << "2. Usun pozycje z menu" << endl;
+        cout << "3. Podsumowanie miesiaca" << endl;
+        cout << "4. Wyloguj" << endl;
+        cout << "Wybor: ";
+        string wStr;
+        getline(cin, wStr);
+        int w = 0;
+        try { w = stoi(wStr); }
+        catch (...) { w = 0; }
+
+        if (w == 4) {
+            cout << "Wylogowano. Nacisnij Enter, aby wrocic do glownego menu." << endl;
+            getline(cin, wStr);
+            break;
+        }
+
+        if (w == 1) {
+            cout << "Podaj nazwe: "; string nazwa; getline(cin, nazwa);
+            cout << "Podaj opis: "; string opis; getline(cin, opis);
+            cout << "Podaj kategorie: "; string kategoria; getline(cin, kategoria);
+            cout << "Podaj rozmiar: "; string rozmiar; getline(cin, rozmiar);
+            cout << "Podaj cene: "; string cenaStr; getline(cin, cenaStr);
+            double cena = 0.0;
+            try { cena = stod(cenaStr); }
+            catch (...) { cena = 0.0; }
+            menu.dodajPozycje(nazwa, opis, kategoria, rozmiar, cena);
+            cout << "Dodano pozycje. Nacisnij Enter, aby kontynuowac." << endl;
+            getline(cin, wStr);
+        }
+        else if (w == 2) {
+            const auto& pozycje = menu.pobierzPozycje();
+            cout << "Pozycje w menu:" << endl;
+            for (size_t i = 0; i < pozycje.size(); ++i) {
+                cout << i << ". " << pozycje[i]->produkt->nazwa
+                    << " (" << pozycje[i]->rozmiar << "), cena: "
+                    << fixed << setprecision(2) << pozycje[i]->cena << endl;
+            }
+            cout << "Podaj numer pozycji do usuniecia: ";
+            string idxStr; getline(cin, idxStr);
+            int idx = -1;
+            try { idx = stoi(idxStr); }
+            catch (...) { idx = -1; }
+            menu.usunPozycje(idx);
+            cout << "Usunieto pozycje. Nacisnij Enter, aby kontynuowac." << endl;
+            getline(cin, wStr);
+        }
+        else if (w == 3) {
+            cout << "Podaj miesiac (1-12): ";
+            string mStr; getline(cin, mStr);
+            cout << "Podaj rok (np. 2025): ";
+            string rStr; getline(cin, rStr);
+            int miesiac = 0, rok = 0;
+            try { miesiac = stoi(mStr); }
+            catch (...) { miesiac = 0; }
+            try { rok = stoi(rStr); }
+            catch (...) { rok = 0; }
+            auto zam = listaZamowien.pobierzWszystkie(miesiac, rok);
+            double suma = 0.0;
+            for (auto z : zam) suma += z->kwotaCalkowita;
+            cout << "Podsumowanie za " << miesiac << "/" << rok << ": " << fixed << setprecision(2) << suma << " zl" << endl;
+            cout << "Nacisnij Enter, aby kontynuowac." << endl;
+            getline(cin, wStr);
+        }
+        else {
+            cout << "Nieprawidlowy wybor. Nacisnij Enter, aby sprobowac ponownie." << endl;
+            getline(cin, wStr);
+        }
+    }
 }
