@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ListaZamowien.cpp" />
     <ClCompile Include="ListaZamowien.h" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Pizzeria.cpp" />
