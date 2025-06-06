@@ -441,7 +441,129 @@ void widokKelnera(vector<Pracownik*>& pracownicy, Menu& menu, ListaZamowien& lis
 
 // Widok kuchni
 void widokKuchni(vector<Pracownik*>& pracownicy, ListaZamowien& listaZamowien) {
+    clearScreen();
+    cout << "--- Widok Kuchni ---" << endl;
+    cout << "Podaj haslo: ";
+    string haslo;
+    getline(cin, haslo);
 
+    Pracownik* zalogowany = nullptr;
+    for (auto p : pracownicy) {
+        if (p->rola == "kucharz" && p->autoryzuj(haslo)) {
+            zalogowany = p;
+            break;
+        }
+    }
+    if (!zalogowany) {
+        cout << "Blad logowania. Nacisnij Enter, aby wrocic do menu glownego." << endl;
+        getline(cin, haslo);
+        return;
+    }
+
+    while (true) {
+        clearScreen();
+        cout << "Zalogowano jako kucharz: " << zalogowany->imie << " " << zalogowany->nazwisko << endl;
+        cout << "\n--- Menu Kuchni ---" << endl;
+        cout << "1. Pokaz zamowienia do obslugi" << endl;
+        cout << "2. Oznacz zamowienie jako gotowe" << endl;
+        cout << "3. Wyloguj" << endl;
+        cout << "Wybor: ";
+
+        string wStr;
+        getline(cin, wStr);
+        int w = 0;
+        try { w = stoi(wStr); }
+        catch (...) { w = 0; }
+
+        if (w == 3) {
+            cout << "Wylogowano. Nacisnij Enter, aby wrocic do glownego menu." << endl;
+            getline(cin, wStr);
+            break;
+        }
+
+        const auto& wszystkie = listaZamowien.pobierzWszystkie();
+        if (wszystkie.empty()) {
+            cout << "Brak zamowien. Nacisnij Enter, aby wrocic." << endl;
+            string tmp; getline(cin, tmp);
+            continue;
+        }
+
+        if (w == 1) {
+            cout << "\n=== Zamowienia (status != gotowe, != wydane) ===" << endl;
+            bool jakiekolwiek = false;
+            for (size_t i = 0; i < wszystkie.size(); ++i) {
+                if (wszystkie[i]->status != "gotowe" && wszystkie[i]->status != "wydane") {
+                    jakiekolwiek = true;
+                    cout << "ID " << i
+                        << ": Typ: " << wszystkie[i]->typZamowienia
+                        << ", Status: " << wszystkie[i]->status
+                        << ", Kwota: " << fixed << setprecision(2) << wszystkie[i]->kwotaCalkowita
+                        << endl;
+                }
+            }
+            if (!jakiekolwiek) {
+                cout << "Brak zamowien do obslugi." << endl;
+                cout << "\nNacisnij Enter, aby wrocic." << endl;
+                string tmp; getline(cin, tmp);
+                continue;
+            }
+            cout << "\nPodaj ID zamowienia, aby zobaczyc elementy (lub -1 aby wrocic): ";
+            string idStr;
+            getline(cin, idStr);
+            int id = -1;
+            try { id = stoi(idStr); }
+            catch (...) { id = -1; }
+            if (id < 0 || id >= static_cast<int>(wszystkie.size()) ||
+                wszystkie[id]->status == "gotowe" || wszystkie[id]->status == "wydane") {
+                // powrót
+                continue;
+            }
+            const auto& elem = wszystkie[id]->pobierzElementy();
+            if (elem.empty()) {
+                cout << "Brak elementow w zamowieniu." << endl;
+            }
+            else {
+                cout << "Elementy zamowienia:" << endl;
+                for (size_t i = 0; i < elem.size(); ++i) {
+                    cout << "- " << elem[i]->pozycjaMenu->produkt->nazwa
+                        << " (" << elem[i]->pozycjaMenu->rozmiar << "), ilosc: "
+                        << elem[i]->ilosc << ", cena: "
+                        << fixed << setprecision(2) << elem[i]->cena << endl;
+                }
+            }
+            cout << "\nNacisnij Enter, aby wrocic." << endl;
+            string tmp; getline(cin, tmp);
+        }
+        else if (w == 2) {
+            cout << "Podaj ID zamowienia do oznaczenia jako gotowe: ";
+            string idStr;
+            getline(cin, idStr);
+            int id = -1;
+            try { id = stoi(idStr); }
+            catch (...) { id = -1; }
+
+            if (id < 0 || id >= static_cast<int>(wszystkie.size()) || wszystkie[id]->status == "wydane") {
+                cout << "Nieprawidlowe ID. Nacisnij Enter, aby wrocic." << endl;
+                string tmp; getline(cin, tmp);
+                continue;
+            }
+            if (wszystkie[id]->status == "w trakcie dostawy") {
+                cout << "To zamowienie nie jest jeszcze gotowe do oznaczenia." << endl;
+                cout << "Nacisnij Enter, aby wrocic." << endl;
+                string tmp; getline(cin, tmp);
+                continue;
+            }
+            // Jeśli status był „nowe” nie można od razu na „gotowe”—klient najpierw dodał elementy; 
+            // ale w tej wersji pomijamy: każemy przyjąć, że kelner po dodaniu elementów zmieni status.
+            wszystkie[id]->status = "gotowe";
+            cout << "Zamowienie ID " << id << " oznaczone jako gotowe. Nacisnij Enter, aby wrocic." << endl;
+            string tmp; getline(cin, tmp);
+        }
+        else {
+            cout << "Nieprawidlowy wybor. Nacisnij Enter, aby sprobowac ponownie." << endl;
+            string tmp; getline(cin, tmp);
+        }
+    }
 }
 
 // Widok kierowcy
