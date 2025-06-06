@@ -446,7 +446,106 @@ void widokKuchni(vector<Pracownik*>& pracownicy, ListaZamowien& listaZamowien) {
 
 // Widok kierowcy
 void widokKierowcy(vector<Pracownik*>& pracownicy, ListaZamowien& listaZamowien) {
+    clearScreen();
+    cout << "--- Widok Kierowcy ---" << endl;
+    cout << "Podaj haslo: ";
+    string haslo;
+    getline(cin, haslo);
 
+    Pracownik* zalogowany = nullptr;
+    for (auto p : pracownicy) {
+        if (p->rola == "kierowca" && p->autoryzuj(haslo)) {
+            zalogowany = p;
+            break;
+        }
+    }
+    if (!zalogowany) {
+        cout << "Blad logowania. Nacisnij Enter, aby wrocic do menu glownego." << endl;
+        getline(cin, haslo);
+        return;
+    }
+
+    while (true) {
+        clearScreen();
+        cout << "Zalogowano jako kierowca: " << zalogowany->imie << " " << zalogowany->nazwisko << endl;
+        cout << "\n--- Menu Kierowcy ---" << endl;
+        cout << "1. Pokaz zamowienia do dostarczenia" << endl;
+        cout << "2. Rozpocznij dostawę / Zakoncz dostawę" << endl;
+        cout << "3. Wyloguj" << endl;
+        cout << "Wybor: ";
+
+        string wStr;
+        getline(cin, wStr);
+        int w = 0;
+        try { w = stoi(wStr); }
+        catch (...) { w = 0; }
+
+        if (w == 3) {
+            cout << "Wylogowano. Nacisnij Enter, aby wrocic do glownego menu." << endl;
+            getline(cin, wStr);
+            break;
+        }
+
+        const auto& wszystkie = listaZamowien.pobierzWszystkie();
+        if (wszystkie.empty()) {
+            cout << "Brak zamowien. Nacisnij Enter, aby wrocic." << endl;
+            string tmp; getline(cin, tmp);
+            continue;
+        }
+
+        if (w == 1) {
+            cout << "\n=== Zamowienia (status: gotowe lub w trakcie dostawy) ===" << endl;
+            bool jakiekolwiek = false;
+            for (size_t i = 0; i < wszystkie.size(); ++i) {
+                if ((wszystkie[i]->status == "gotowe" || wszystkie[i]->status == "w trakcie dostawy")) {
+                    jakiekolwiek = true;
+                    Klient* k = wszystkie[i]->klient;
+                    cout << "ID " << i
+                        << ": Adres: " << k->miasto << ", " << k->ulica
+                        << ", Status: " << wszystkie[i]->status
+                        << ", Kwota: " << fixed << setprecision(2) << wszystkie[i]->kwotaCalkowita
+                        << endl;
+                }
+            }
+            if (!jakiekolwiek) {
+                cout << "Brak zamowien do dostarczenia." << endl;
+            }
+            cout << "\nNacisnij Enter, aby wrocic." << endl;
+            string tmp; getline(cin, tmp);
+        }
+        else if (w == 2) {
+            cout << "Podaj ID zamowienia: ";
+            string idStr;
+            getline(cin, idStr);
+            int id = -1;
+            try { id = stoi(idStr); }
+            catch (...) { id = -1; }
+
+            if (id < 0 || id >= static_cast<int>(wszystkie.size())) {
+                cout << "Nieprawidlowe ID. Nacisnij Enter, aby wrocic." << endl;
+                string tmp; getline(cin, tmp);
+                continue;
+            }
+            Zamowienie* zam = wszystkie[id];
+            if (zam->status == "gotowe") {
+                zam->status = "w trakcie dostawy";
+                cout << "Zamowienie ID " << id << " ustawione na 'w trakcie dostawy'. Nacisnij Enter, aby wrocic." << endl;
+            }
+            else if (zam->status == "w trakcie dostawy") {
+                zam->status = "wydane";
+                cout << "Zamowienie ID " << id << " ustawione na 'wydane'. Nacisnij Enter, aby wrocic." << endl;
+            }
+            else {
+                cout << "Ten status (" << zam->status << ") nie mozna zmienic na 'w trakcie dostawy' lub 'wydane'." << endl;
+                cout << "Nacisnij Enter, aby wrocic." << endl;
+            }
+            string tmp; getline(cin, tmp);
+        }
+        else {
+            cout << "Nieprawidlowy wybor. Nacisnij Enter, aby sprobowac ponownie." << endl;
+            string tmp; getline(cin, tmp);
+        }
+    }
 }
 
 // Widok szefa
